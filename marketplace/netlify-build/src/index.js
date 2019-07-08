@@ -44,7 +44,7 @@ export default class NetlifyExtension extends React.Component {
   constructor(props) {
     super(props);
 
-    const installationParameters = !!this.props.sdk.parameters.installation;
+    const installationParameters = !!Object.keys(props.sdk.parameters.installation).length;
 
     let isConfigured = false;
     let sites = null;
@@ -63,7 +63,6 @@ export default class NetlifyExtension extends React.Component {
   }
 
   async componentDidMount() {
-    this.props.sdk.window.startAutoResizer();
     const { items } = await this.props.sdk.space.getUsers();
 
     // eslint-disable-next-line
@@ -75,9 +74,6 @@ export default class NetlifyExtension extends React.Component {
   };
 
   render() {
-    const { sites, selectedSiteIndex } = this.state;
-    const selectedSite = sites[selectedSiteIndex];
-
     if (!this.state.isConfigured) {
       if (this.props.sdk.location.is(locations.LOCATION_PAGE)) {
         return <div>App Configure Page</div>;
@@ -85,6 +81,9 @@ export default class NetlifyExtension extends React.Component {
 
       return <div>Configure me</div>;
     }
+
+    const { sites, selectedSiteIndex } = this.state;
+    const selectedSite = sites[selectedSiteIndex];
 
     return (
       <>
