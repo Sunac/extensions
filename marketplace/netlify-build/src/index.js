@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import { init } from 'contentful-ui-extensions-sdk';
+import { init, locations } from 'contentful-ui-extensions-sdk';
 import { Select, Option, Button, Icon } from '@contentful/forma-36-react-components';
 import NeflifySideBarBuildButton from './NetlifySideBarBuildButton';
 
@@ -79,7 +79,7 @@ export default class NetlifyExtension extends React.Component {
     const selectedSite = sites[selectedSiteIndex];
 
     if (!this.state.isConfigured) {
-      if (this.props.sdk.location === 'page') {
+      if (this.props.sdk.location.is(locations.LOCATION_PAGE)) {
         return <div>App Configure Page</div>;
       }
 
