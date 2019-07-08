@@ -97,5 +97,9 @@ export default class NetlifyExtension extends React.Component {
 }
 
 init(sdk => {
-  ReactDOM.render(<NetlifyExtension sdk={sdk} />, document.getElementById('root'));
+  if (sdk.location === 'page') {
+    ReactDOM.render(<div>Hello</div>, document.getElementById('root'));
+  } else {
+    ReactDOM.render(<NetlifyExtension sdk={sdk} />, document.getElementById('root'));
+  }
 });
