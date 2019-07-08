@@ -79,7 +79,11 @@ export default class NetlifyExtension extends React.Component {
     const selectedSite = sites[selectedSiteIndex];
 
     if (!this.state.isConfigured) {
-      return <div>App Configure Page</div>;
+      if (this.props.sdk.location === 'page') {
+        return <div>App Configure Page</div>;
+      }
+
+      return <div>Configure me</div>;
     }
 
     return (
