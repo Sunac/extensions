@@ -41,11 +41,26 @@ export default class NetlifyExtension extends React.Component {
     sdk: PropTypes.object.isRequired
   };
 
-  state = {
-    users: [],
-    sites: createSiteStructure(this.props.sdk.parameters.installation),
-    selectedSiteIndex: 0
-  };
+  constructor(props) {
+    super(props);
+
+    const installationParameters = !!this.props.sdk.parameters.installation;
+
+    let isConfigured = false;
+    let sites = null;
+
+    if (installationParameters) {
+      isConfigured = true;
+      sites = createSiteStructure(this.props.sdk.parameters.installation);
+    }
+
+    this.state = {
+      users: [],
+      selectedSiteIndex: 0,
+      sites,
+      isConfigured
+    };
+  }
 
   async componentDidMount() {
     this.props.sdk.window.startAutoResizer();
@@ -62,6 +77,10 @@ export default class NetlifyExtension extends React.Component {
   render() {
     const { sites, selectedSiteIndex } = this.state;
     const selectedSite = sites[selectedSiteIndex];
+
+    if (!this.state.isConfigured) {
+      return <div>App Configure Page</div>;
+    }
 
     return (
       <>
@@ -97,9 +116,5 @@ export default class NetlifyExtension extends React.Component {
 }
 
 init(sdk => {
-  if (sdk.location === 'page') {
-    ReactDOM.render(<div>Hello</div>, document.getElementById('root'));
-  } else {
-    ReactDOM.render(<NetlifyExtension sdk={sdk} />, document.getElementById('root'));
-  }
+  ReactDOM.render(<NetlifyExtension sdk={sdk} />, document.getElementById('root'));
 });
